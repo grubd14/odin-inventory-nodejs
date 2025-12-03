@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --env-file=.env db/dbPool.js db/dbPopulate.js"
+    "start": "node --env-file=.env db/dbPool.js && node --env-file=.env db/dbPopulate.js"
   },
   "type": "module",
   "keywords": [],

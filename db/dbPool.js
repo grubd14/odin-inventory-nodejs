@@ -1,3 +1,4 @@
+//pool connection to the database
 import { Pool } from "pg";
 
 const dbPool = new Pool({
