@@ -1,6 +1,9 @@
 #! /usr/bin/env node
 
 import { Client } from "pg";
+import env from "dotenv"
+
+env.config()
 
 const dbConnectionString = process.env.CONNECTION_STRING;
 console.log(dbConnectionString)
