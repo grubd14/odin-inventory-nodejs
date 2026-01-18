@@ -35,7 +35,10 @@ async function getCategoryById(request, response) {
 
 //insert into category (name, description) values('electronics', 'electronics items')
 async function createCategory(request, response) {
-
+  const { name, description } = request.params
+  const { rows } = await dbPool.query('INSERT INTO category (name, description) VALUES ( $1, $2)', [name, description])
+  console.log(rows)
+  response.json(rows) 
 }
 
 //update category 
@@ -49,4 +52,4 @@ async function deleteCategory(request, response) {
   
 }
 
-export {getAllCategories, getCategoryById}
+export {getAllCategories, getCategoryById, createCategory}
