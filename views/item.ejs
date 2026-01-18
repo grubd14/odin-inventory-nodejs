@@ -3,20 +3,28 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title> <%= title ></title>
+	<title> <%= title %></title>
 </head>
 <body>
 <h1>
-<%= title>
+<%= title %>
 </h1>
-  
+
+
 <ul>
-<%= items.forEach(item => {
+<% items.forEach(item => { %>
   <li>
-      <strong><%= item></strong>
+    <strong><%= item.id %></strong>
+    <strong><%= item.name %></strong>
+    <strong><%= item.description %></strong>
+    <strong><%= item.quantity %></strong>
+    <strong><%= item.category_id %></strong>
   </li>
-})
-<li></li></ul>
-	
+<% }); %>
+</ul>
 </body>
 </html>
+
+items.forEach(item => {
+
+})

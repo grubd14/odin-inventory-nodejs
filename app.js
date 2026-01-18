@@ -16,6 +16,10 @@ app.use("/", indexRouter);
 app.use("/category", categoryRouter);
 app.use("/item", itemRouter);
 
+//view engine setup
+app.set("views", path.join(__dirname, "views")); // Corrected path.join
+app.set("view engine", "ejs");
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`"express app-listening on port ${PORT}"`);

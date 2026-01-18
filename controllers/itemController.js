@@ -6,7 +6,8 @@ async function getAllTheItems(request,response) {
   const { rows }  = await dbPool.query("SELECT * FROM item")
   const items = rows
   console.log(items)
-  return items
+  response.render("item", {title: "Items List", items: items})
+
 }
 
 export default getAllTheItems

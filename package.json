@@ -5,16 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --env-file=.env db/dbPool.js && node --env-file=.env db/dbPopulate.js"
+    "start": "node --env-file=.env db/dbPool.js && node --env-file=.env db/dbPopulate.js",
+    "dev": "node --watch app.js"
   },
   "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@10.28.0",
   "dependencies": {
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
+    "ejs-lint": "^2.0.1",
     "express": "^5.2.0",
     "pg": "^8.16.3"
   }
