@@ -44,12 +44,16 @@ async function createCategory(request, response) {
 //update category 
 // set name = 'updated name' , description = 'updated' where id = 1;
 async function updateCategory(request, response) {
-  
+  const {updatedName , updatedDescription, id} = request.params
+  const {rows} = await dbPool.query("SET name = '$1' , description = '$2' where id = $3 ",[updatedName,updatedDescription, id])
+  response.json(rows)
 }
 
 //delete from category where id = 1;
 async function deleteCategory(request, response) {
-  
+  const id = request.params
+  const {rows} = await dbPool.query("DELETE FROM category WHERE id = $1", [id])
+  response.json(rows)
 }
 
-export {getAllCategories, getCategoryById, createCategory}
+export {getAllCategories, getCategoryById, createCategory, updateCategory,deleteCategory}
