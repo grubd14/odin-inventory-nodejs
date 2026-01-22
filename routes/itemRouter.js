@@ -1,5 +1,5 @@
 import { Router } from "express";
-import  getAllTheItems, { addItem, deleteItem, updateItem, updateItemQuantity } from "../controllers/itemController.js";
+import  {getAllTheItems, addItem, deleteItem, updateItem, updateItemQuantity } from "../controllers/itemController.js";
 
 const itemRouter =  Router()
 

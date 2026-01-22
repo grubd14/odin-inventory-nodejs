@@ -2,6 +2,7 @@ import { dbPool } from "../db/dbPool.js";
 
 //TO-DO
 // pass all the data through body not in URL parameters
+// test all the APIs
 
 //controller functions for item resources
 // getAllTheItems

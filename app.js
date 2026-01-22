@@ -11,6 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 //middleware to the specific routes
+app.use(express.json()) //this is used to parse the JSON being sent from the client
 app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 app.use("/category", categoryRouter);

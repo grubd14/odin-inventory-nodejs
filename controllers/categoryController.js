@@ -35,7 +35,7 @@ async function getCategoryById(request, response) {
 
 //insert into category (name, description) values('electronics', 'electronics items')
 async function createCategory(request, response) {
-  const { name, description } = request.params
+  const { name, description } = request.body
   const { rows } = await dbPool.query('INSERT INTO category (name, description) VALUES ( $1, $2)', [name, description])
   console.log(rows)
   response.json(rows) 
@@ -44,7 +44,7 @@ async function createCategory(request, response) {
 //update category 
 // set name = 'updated name' , description = 'updated' where id = 1;
 async function updateCategory(request, response) {
-  const {updatedName , updatedDescription, id} = request.params
+  const {updatedName , updatedDescription, id} = request.body
   const {rows} = await dbPool.query("SET name = '$1' , description = '$2' where id = $3 ",[updatedName,updatedDescription, id])
   response.json(rows)
 }
