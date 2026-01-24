@@ -8,6 +8,12 @@ env.config()
 const dbConnectionString = process.env.CONNECTION_STRING;
 console.log(dbConnectionString)
 const sqlScript = `
+  CREATE TABLE users (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    username VARCHAR(255),
+    password VARCHAR(255)
+  );
+  
   CREATE TABLE IF NOT EXISTS category (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(255),
