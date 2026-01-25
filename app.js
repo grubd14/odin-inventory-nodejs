@@ -6,6 +6,8 @@ import { indexRouter } from "./routes/indexRouter.js";
 import { categoryRouter } from "./routes/categoryRouter.js";
 import { itemRouter } from "./routes/itemRouter.js";
 import session from "express-session"
+import { loginRouter } from "./routes/loginRouter.js";
+import { signUpRouter } from "./routes/signUpRouter.js";
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,6 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 app.use("/category", categoryRouter);
 app.use("/item", itemRouter);
+app.use("/login", loginRouter)
+app.use("/signup", signUpRouter)
 
 //view engine setup
 app.set("views", path.join(__dirname, "views")); // Corrected path.join
@@ -24,7 +28,7 @@ app.set("view engine", "ejs");
 
 //session 
 app.use(session({
-  secret: "",
+  secret: "test_cat",
   resave: false,
   saveUninitialized: false
 }));
