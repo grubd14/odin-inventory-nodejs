@@ -21,14 +21,15 @@ import { dbPool } from "../db/dbPool.js";
 async function getAllCategories(request, response) {
   const { rows } = await dbPool.query("SELECT * FROM category");
   const category = rows;
-  console.log(category);
-  response.render("category", { title: "Category List", category: category });
+  // console.log(category);
+  // response.render("category", { title: "Category List", category: category });
+  response.json(rows)
 }
 
 //select * from category where id = 1
 async function getCategoryById(request, response) {
-  const { id } = request.params;
-  const { rows } = await dbPool.query("SELECT * FROM category WHERE ID = $1", [
+  const { id }  = request.params;
+  const { rows } = await dbPool.query("SELECT * FROM category WHERE id = $1", [
     id,
   ]);
   response.json(rows);
@@ -48,17 +49,17 @@ async function createCategory(request, response) {
 //update category
 // set name = 'updated name' , description = 'updated' where id = 1;
 async function updateCategory(request, response) {
-  const { updatedName, updatedDescription, id } = request.body;
+  const { name, description, id } = request.body;
   const { rows } = await dbPool.query(
-    "SET name = '$1' , description = '$2' where id = $3 ",
-    [updatedName, updatedDescription, id],
+    "UPDATE category SET name = $1 , description = $2 where id = $3 ",
+    [name, description, id],
   );
   response.json(rows);
 }
 
 //delete from category where id = 1;
 async function deleteCategory(request, response) {
-  const id = request.params;
+  const { id } = request.params;
   const { rows } = await dbPool.query("DELETE FROM category WHERE id = $1", [
     id,
   ]);
