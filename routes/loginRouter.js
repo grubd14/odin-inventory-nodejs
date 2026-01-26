@@ -18,7 +18,7 @@ loginRouter.get("/fail", failureLogin)
 
 
 loginRouter.post("/log-out", logout)
-loginRouter.get("/", login)
+// loginRouter.get("/", login)
 
 
 export { loginRouter }
