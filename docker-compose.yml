@@ -1,12 +1,14 @@
 services:
   postgres_db:
-    image: postgres
+    image: postgres:18
     container_name: postgres_db
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: grubd14@githubprojects
       POSTGRES_USER: grubd14
+      POSTGRES_PASSWORD: grubd14@inventory
+      POSTGRES_DB: top_inventory
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     volumes:
-      - './docker_database:/var/lib/postgresql/data'
+      - ./database_data:/var/lib/postgresql/data

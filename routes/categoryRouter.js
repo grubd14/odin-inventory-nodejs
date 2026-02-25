@@ -16,6 +16,6 @@ categoryRouter.post("/create", createCategory);
 categoryRouter.get("/", getAllCategories);
 categoryRouter.post("/:id/update", updateCategory);
 categoryRouter.get("/:id", getCategoryById);
-categoryRouter.post("/:id", deleteCategory);
+categoryRouter.delete("/:id", deleteCategory);
 
 export { categoryRouter };

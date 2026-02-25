@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
@@ -10,6 +10,7 @@ import { loginRouter } from "./routes/loginRouter.js";
 import { signUpRouter } from "./routes/signUpRouter.js";
 import passport from "passport";
 import { logout } from "./controllers/loginController.js";
+import cors from "cors";
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -19,10 +20,24 @@ app.use(express.json()); //this is used to parse the JSON being sent from the cl
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
+
+app.use(
   session({
     secret: "test_cat",
     resave: false,
     saveUninitialized: false,
+  }),
+);
+
+app.use(
+  cors({
+    origin: `http://localhost:5173`,
+    credentials: true,
   }),
 );
 
@@ -35,7 +50,7 @@ app.use("/", indexRouter);
 app.use("/category", categoryRouter);
 app.use("/item", itemRouter);
 app.use("/login", loginRouter);
-app.use("/logout", logout)
+app.use("/logout", logout);
 app.use("/signup", signUpRouter);
 
 //view engine setup

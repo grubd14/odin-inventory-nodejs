@@ -1,3 +1,4 @@
 node_modules
 .env
 docker_database
+database_data
