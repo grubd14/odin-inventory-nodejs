@@ -14,6 +14,7 @@ import { dbPool } from "../db/dbPool.js";
  *  - createCategory(req, res)
  *  - updateCategory(req, res)
  *  - deleteCategory(req, res)
+ *  - getItemsByCategoryId(req, res)
 
  */
 //lets first take all the response from functions as json
@@ -28,12 +29,28 @@ async function getAllCategories(request, response) {
 
 //select * from category where id = 1
 async function getCategoryById(request, response) {
-  const { id }  = request.params;
-  const { rows } = await dbPool.query("SELECT * FROM category WHERE id = $1", [
-    id,
-  ]);
-  response.json(rows);
+ const { id } = request.params;
+
+ // Fetch category and items in parallel and return a combined response
+ const categoryQuery = dbPool.query("SELECT * FROM category WHERE id = $1", [
+   id,
+ ]);
+ const itemsQuery = dbPool.query(
+   "SELECT * FROM item WHERE category_id = $1",
+   [id],
+ );
+
+ const [{ rows: categoryRows }, { rows: itemRows }] = await Promise.all([
+   categoryQuery,
+   itemsQuery,
+ ]);
+
+ const category = categoryRows[0] || null;
+ response.json({ category, items: itemRows });
 }
+
+// Reuse the same implementation for the items endpoint so both routes are backed by one function
+const getItemsByCategoryId = getCategoryById;
 
 //insert into category (name, description) values('electronics', 'electronics items')
 async function createCategory(request, response) {
@@ -69,6 +86,7 @@ async function deleteCategory(request, response) {
 export {
   getAllCategories,
   getCategoryById,
+  getItemsByCategoryId,
   createCategory,
   updateCategory,
   deleteCategory,
