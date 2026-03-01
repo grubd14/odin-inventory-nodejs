@@ -7,14 +7,16 @@ import {
   updateItemQuantity,
   getItemById,
 } from "../controllers/itemController.js";
+import { requireAdmin } from "../middleware/requiredAdmin.js";
 
 const itemRouter = Router();
 
 itemRouter.get("/", getAllTheItems);
 itemRouter.get("/:id", getItemById);
-itemRouter.post("/add", addItem);
-itemRouter.post("/:id/update", updateItem);
-itemRouter.post("/:id/updateQuantity", updateItemQuantity);
-itemRouter.delete("/:id", deleteItem);
+
+itemRouter.post("/add", requireAdmin, addItem);
+itemRouter.post("/:id/update", requireAdmin, updateItem);
+itemRouter.post("/:id/updateQuantity", requireAdmin, updateItemQuantity);
+itemRouter.delete("/:id", requireAdmin, deleteItem);
 
 export { itemRouter };

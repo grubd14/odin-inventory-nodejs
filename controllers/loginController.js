@@ -37,7 +37,7 @@ passport.deserializeUser(async (id, done) => {
     const { rows } = await dbPool.query("SELECT * FROM users WHERE id = $1", [
       id,
     ]);
-    const user = rows;
+    const user = rows[0];
 
     done(null, user);
   } catch (error) {
@@ -55,16 +55,20 @@ async function logout(request, response, next) {
       return next(error);
     }
     // response.redirect("/");
-    response.json({message: "Loged out!!!"})
+    response.json({ message: "Loged out!!!" });
   });
 }
 
 async function successfulLogin(request, response) {
-  response.json({message: 'Success!!'})
+  response.json({
+    user: request.user,
+    redirectTo: "/category",
+    message: "Login successful!!",
+  });
 }
 
 async function failureLogin(request, response) {
-  response.json({message: 'Failure'})
+  response.json({ message: "Login failed" });
 }
 
-export { login, logout , successfulLogin, failureLogin};
+export { login, logout, successfulLogin, failureLogin };

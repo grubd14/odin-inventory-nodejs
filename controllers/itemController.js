@@ -23,7 +23,7 @@ async function getAllTheItems(request, response) {
 async function getItemById(request, response) {
   const { id } = request.params;
   const { rows } = await dbPool.query("SELECT * FROM item WHERE id = $1", [id]);
-  response.json(rows);
+  response.json(rows[0]);
 }
 
 async function addItem(request, response) {
@@ -41,7 +41,7 @@ async function updateItem(request, response) {
     "UPDATE item SET name = $1, description = $2 , quantity = $3, category_id = $4 WHERE id = $5",
     [name, description, quantity, category_id, id],
   );
-  response.json(rows);
+  response.json(rows[0]);
 }
 
 async function updateItemQuantity(request, response) {
@@ -50,13 +50,13 @@ async function updateItemQuantity(request, response) {
     "UPDATE item SET quantity = quantity + $1 WHERE id = $2",
     [quantity, id],
   );
-  response.json(rows);
+  response.json(rows[0]);
 }
 
 async function deleteItem(request, response) {
   const { id } = request.params;
   const { rows } = await dbPool.query("DELETE FROM item WHERE id = $1", [id]);
-  response.json(rows);
+  response.json(rows[0]);
 }
 
 export {

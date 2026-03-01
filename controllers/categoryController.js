@@ -59,7 +59,6 @@ async function createCategory(request, response) {
     "INSERT INTO category (name, description) VALUES ( $1, $2)",
     [name, description],
   );
-  console.log(rows);
   response.json(rows);
 }
 

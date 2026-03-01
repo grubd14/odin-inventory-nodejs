@@ -1,24 +1,27 @@
 import passport from "passport";
 import "../controllers/loginController.js";
 import { Router } from "express";
-import {failureLogin, login, logout, successfulLogin } from "../controllers/loginController.js"
+import {
+  failureLogin,
+  login,
+  logout,
+  successfulLogin,
+} from "../controllers/loginController.js";
 
 const loginRouter = Router();
 
 loginRouter.post(
   "/",
   passport.authenticate("local", {
-    successRedirect: '/success',
-    failureRedirect: '/fail',
+    failureRedirect: "/",
   }),
+  successfulLogin,
 );
 
-loginRouter.get("/success", successfulLogin)
-loginRouter.get("/fail", failureLogin)
+loginRouter.get("/success", successfulLogin);
+loginRouter.get("/fail", failureLogin);
 
-
-loginRouter.post("/log-out", logout)
+loginRouter.post("/log-out", logout);
 // loginRouter.get("/", login)
 
-
-export { loginRouter }
+export { loginRouter };
