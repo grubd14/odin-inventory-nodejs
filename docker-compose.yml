@@ -11,4 +11,31 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./database_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - project-network
+
+  project_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: inventory_backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./odin-inventory-nodejs/.env
+    networks:
+      - project-network
+    volumes:
+      - ./odin-inventory-nodejs:/app
+      - /app/node_modules
+    depends_on:
+      - postgres_db
+
+networks:
+  project-network:
+    external: true
+
+volumes:
+  postgres_data:
