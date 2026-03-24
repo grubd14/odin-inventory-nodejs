@@ -21,7 +21,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost",
+      "http://localhost:3000",
+      "http://localhost:5173",
+    ],
     credentials: true,
   }),
 );
@@ -34,24 +38,17 @@ app.use(
   }),
 );
 
-app.use(
-  cors({
-    origin: `http://localhost:5173`,
-    credentials: true,
-  }),
-);
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 //middleware to the specific routes
 
-app.use("/", indexRouter);
-app.use("/category", categoryRouter);
-app.use("/item", itemRouter);
-app.use("/login", loginRouter);
-app.use("/logout", logout);
-app.use("/signup", signUpRouter);
+app.use("/api", indexRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/item", itemRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/logout", logout);
+app.use("/api/signup", signUpRouter);
 
 //view engine setup
 app.set("views", path.join(__dirname, "views")); // Corrected path.join

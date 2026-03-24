@@ -1,19 +1,20 @@
 #! /usr/bin/env node
 
 import { Client } from "pg";
-import env from "dotenv"
+import env from "dotenv";
 
-env.config()
+env.config();
 
 const dbConnectionString = process.env.CONNECTION_STRING;
-console.log(dbConnectionString)
+console.log(dbConnectionString);
 const sqlScript = `
   CREATE TABLE users (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     username VARCHAR(255),
-    password VARCHAR(255)
+    password VARCHAR(255),
+    role VARCHAR(50)
   );
-  
+
   CREATE TABLE IF NOT EXISTS category (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(255),
@@ -27,6 +28,11 @@ const sqlScript = `
     quantity INTEGER,
     category_id INTEGER REFERENCES category(id)
   );
+
+  -- insert two basic rules
+  INSERT INTO users (username, password, role) VALUES
+    ('admin', 'admin' , 'admin'),
+    ('user', 'user' , 'user');
 
   -- insert some dummy categories
   INSERT INTO category (name, description) VALUES
