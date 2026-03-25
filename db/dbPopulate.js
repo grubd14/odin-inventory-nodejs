@@ -31,8 +31,8 @@ const sqlScript = `
 
   -- insert two basic rules
   INSERT INTO users (username, password, role) VALUES
-    ('admin', 'admin' , 'admin'),
-    ('user', 'user' , 'user');
+    ('admin', '$2a$12$GSmThb3kRu6nTBxobLLOn.0BK6nGM6ZdVhfH4JJx4DjOhreVJGDLa' , 'admin'),
+    ('user', '$2a$12$zuqV/kuhDhq.2zL3zmBs6uXs5xfWGilS9lLkxYg1S44ibtNXT3Bp2' , 'user');
 
   -- insert some dummy categories
   INSERT INTO category (name, description) VALUES
