@@ -27,9 +27,10 @@ services:
       - .env
     networks:
       - project-network
-    volumes:
-      - ./odin-inventory-nodejs:/app
-      - /app/node_modules
+#volumes not necessary in production
+    # volumes:
+    #   - ./odin-inventory-nodejs:/app
+    #   - /app/node_modules
     depends_on:
       - postgres_db
 
