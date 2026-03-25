@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: grubd14
-      POSTGRES_PASSWORD: grubd14@inventory
+      POSTGRES_PASSWORD: grubd14inventory
       POSTGRES_DB: top_inventory
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
