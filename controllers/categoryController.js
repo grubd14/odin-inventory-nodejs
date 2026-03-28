@@ -74,12 +74,32 @@ async function updateCategory(request, response) {
 }
 
 //delete from category where id = 1;
+// Items reference category via item.category_id; delete those rows first so the FK is satisfied.
 async function deleteCategory(request, response) {
   const { id } = request.params;
-  const { rows } = await dbPool.query("DELETE FROM category WHERE id = $1", [
-    id,
-  ]);
-  response.json(rows);
+  const client = await dbPool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query("DELETE FROM item WHERE category_id = $1", [id]);
+    const { rows } = await client.query(
+      "DELETE FROM category WHERE id = $1 RETURNING id",
+      [id],
+    );
+    await client.query("COMMIT");
+    if (rows.length === 0) {
+      response.status(404).json({ error: "Category not found" });
+      return;
+    }
+    response.json({ deleted: true, id: rows[0].id });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("deleteCategory:", err);
+    response.status(500).json({
+      error: err.message ?? "Failed to delete category",
+    });
+  } finally {
+    client.release();
+  }
 }
 
 export {
