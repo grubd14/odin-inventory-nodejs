@@ -16,16 +16,36 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+/** Comma-separated extra origins (e.g. https://project.sushilneupane.com.np) */
+const corsOriginsFromEnv =
+  process.env.CORS_ORIGINS?.split(",")
+    .map((o) => o.trim())
+    .filter(Boolean) ?? [];
+
+const allowedOrigins = new Set([
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:3000",
+  "https://project.sushilneupane.com.np",
+  "http://project.sushilneupane.com.np",
+  ...corsOriginsFromEnv,
+]);
+
 app.use(express.json()); //this is used to parse the JSON being sent from the client
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: [
-      "http://localhost",
-      "http://localhost:3000",
-      "http://localhost:5173",
-    ],
+    origin(origin, callback) {
+      if (!origin) {
+        return callback(null, true);
+      }
+      if (allowedOrigins.has(origin)) {
+        return callback(null, true);
+      }
+      callback(null, false);
+    },
     credentials: true,
   }),
 );
