@@ -26,7 +26,7 @@ const sqlScript = `
     name VARCHAR(255),
     description VARCHAR(255),
     quantity INTEGER,
-    category_id INTEGER REFERENCES category(id)
+    category_id INTEGER REFERENCES category(id) ON DELETE CASCADE
   );
   
   -- Insert default users only if they don't exist
@@ -51,23 +51,27 @@ const sqlScript = `
   SELECT 'Clothing', 'Apparel and accessories'
   WHERE NOT EXISTS (SELECT 1 FROM category WHERE name = 'Clothing');
   
-  -- Insert dummy items only if they don't exist
+  -- Insert dummy items only if they don't exist and category exists
   INSERT INTO item (name, description, quantity, category_id) 
-  SELECT 'Smartphone', 'Latest model smartphone', 10, 1
-  WHERE NOT EXISTS (SELECT 1 FROM item WHERE name = 'Smartphone');
+  SELECT 'Smartphone', 'Latest model smartphone', 10, (SELECT id FROM category WHERE name = 'Electronics' OR name LIKE '%Electronics%' LIMIT 1)
+  WHERE NOT EXISTS (SELECT 1 FROM item WHERE name = 'Smartphone')
+  AND EXISTS (SELECT 1 FROM category WHERE name = 'Electronics' OR name LIKE '%Electronics%');
   
   INSERT INTO item (name, description, quantity, category_id) 
-  SELECT 'Laptop', '15-inch laptop', 5, 1
-  WHERE NOT EXISTS (SELECT 1 FROM item WHERE name = 'Laptop');
+  SELECT 'Laptop', '15-inch laptop', 5, (SELECT id FROM category WHERE name = 'Electronics' OR name LIKE '%Electronics%' LIMIT 1)
+  WHERE NOT EXISTS (SELECT 1 FROM item WHERE name = 'Laptop')
+  AND EXISTS (SELECT 1 FROM category WHERE name = 'Electronics' OR name LIKE '%Electronics%');
   
   INSERT INTO item (name, description, quantity, category_id) 
-  SELECT 'Apples', 'Fresh red apples (1kg)', 50, 2
-  WHERE NOT EXISTS (SELECT 1 FROM item WHERE name = 'Apples');
+  SELECT 'Apples', 'Fresh red apples (1kg)', 50, (SELECT id FROM category WHERE name = 'Groceries' OR name LIKE '%Grocery%' LIMIT 1)
+  WHERE NOT EXISTS (SELECT 1 FROM item WHERE name = 'Apples')
+  AND EXISTS (SELECT 1 FROM category WHERE name = 'Groceries' OR name LIKE '%Grocery%');
   
   INSERT INTO item (name, description, quantity, category_id) 
-  SELECT 'T-shirt', 'Cotton t-shirt, size M', 30, 3
-  WHERE NOT EXISTS (SELECT 1 FROM item WHERE name = 'T-shirt');
-`;
+  SELECT 'T-shirt', 'Cotton t-shirt, size M', 30, (SELECT id FROM category WHERE name = 'Clothing' OR name LIKE '%Cloth%' LIMIT 1)
+  WHERE NOT EXISTS (SELECT 1 FROM item WHERE name = 'T-shirt')
+  AND EXISTS (SELECT 1 FROM category WHERE name = 'Clothing' OR name LIKE '%Cloth%');
+ `;
 
 async function clientConnection() {
   console.log("STARTING DATABASE INITIALIZATION.....");

@@ -26,6 +26,20 @@ async function getItemById(request, response) {
   response.json(rows[0]);
 }
 
+async function searchItems(request, response) {
+  const { q } = request.query;
+  if (!q || q.trim() === "") {
+    const { rows } = await dbPool.query("SELECT * FROM item");
+    return response.json(rows);
+  }
+  const searchTerm = `%${q.trim()}%`;
+  const { rows } = await dbPool.query(
+    "SELECT * FROM item WHERE name ILIKE $1 OR description ILIKE $1",
+    [searchTerm]
+  );
+  response.json(rows);
+}
+
 async function addItem(request, response) {
   const { name, description, quantity, category_id } = request.body;
   const { rows } = await dbPool.query(
@@ -66,4 +80,5 @@ export {
   updateItemQuantity,
   deleteItem,
   getItemById,
+  searchItems,
 };

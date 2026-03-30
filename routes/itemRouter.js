@@ -6,12 +6,14 @@ import {
   updateItem,
   updateItemQuantity,
   getItemById,
+  searchItems,
 } from "../controllers/itemController.js";
 import { requireAdmin } from "../middleware/requiredAdmin.js";
 
 const itemRouter = Router();
 
 itemRouter.get("/", getAllTheItems);
+itemRouter.get("/search", searchItems);
 itemRouter.get("/:id", getItemById);
 
 itemRouter.post("/add", requireAdmin, addItem);
